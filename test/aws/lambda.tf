@@ -1,8 +1,9 @@
 resource "aws_lambda_function" "pplambda" {
   function_name = "pplambda"
-  filename = "${var.deploy_file}"
+  s3_bucket = "${var.deploy_bucket}"
+  s3_key = "${var.deploy_name}.zip"
 
-  handler = "pplambda"
+  handler = "${var.deploy_name}"
 
   role = "${aws_iam_role.lambda_exec.arn}"
   description = "Shitposts parrots to slack"

@@ -13,7 +13,7 @@ resource "aws_api_gateway_method" "pparrot_convert_proxy" {
   rest_api_id = "${aws_api_gateway_rest_api.PParrotAPI.id}"
   resource_id = "${aws_api_gateway_resource.pparrot_convert.id}"
   http_method = "POST"
-  authorization = "NONE"
+  authorization = "AWS_IAM"
 }
 
 resource "aws_api_gateway_integration" "pplambda" {
@@ -24,6 +24,13 @@ resource "aws_api_gateway_integration" "pplambda" {
   integration_http_method = "POST"
   type = "AWS_PROXY"
   uri = "${aws_lambda_function.pplambda.invoke_arn}"
+}
+
+resource "aws_api_gateway_method_response" "200" {
+  rest_api_id = "${aws_api_gateway_rest_api.PParrotAPI.id}"
+  resource_id = "${aws_api_gateway_resource.pparrot_convert.id}"
+  http_method = "${aws_api_gateway_method.pparrot_convert_proxy.http_method}"
+  status_code = "200"
 }
 
 resource "aws_api_gateway_deployment" "PParrotAPI_prod" {

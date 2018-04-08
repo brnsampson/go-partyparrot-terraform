@@ -7,13 +7,12 @@ variable "cert_arn" {
   type = "string"
 }
 
-variable "deploy_file" {
+variable "deploy_name" {
   type = "string"
 }
 
-variable "env" {
+variable "deploy_bucket" {
   type = "string"
-  default = "test"
 }
 
 variable "slack_tokens" {
